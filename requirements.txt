@@ -1,4 +1,4 @@
-wheel 0.34.2
+wheel 0.36.2
 pip 20.0.2
 dash==1.17.0
 dash-core-components==1.13.0
