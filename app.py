@@ -32,7 +32,7 @@ pseudos = {author['name'] : author['pseudo'] for author in list(members.find())}
 connection.close()
 
 
-dash_app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 
 # Query data 
 
@@ -124,7 +124,7 @@ df_msg_per_person = pd.DataFrame.from_dict(data_, orient="index", columns=['Mess
 msg_total = data["total_msg"]
 fig1 = px.bar(df_msg_per_person, x=df_msg_per_person.index, y="Messages", title='Messages par touka')
 
-dash_app.layout = html.Div(children=[
+app.layout = html.Div(children=[
     html.H1(children='Touka Analytics'),
 
     html.Div(children='''
@@ -143,4 +143,4 @@ dash_app.layout = html.Div(children=[
 ])
 
 if __name__ == '__main__':
-    dash_app.run_server(debug=True)
+    app.run_server(debug=True)
