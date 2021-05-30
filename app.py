@@ -33,7 +33,7 @@ print('connexion time:', datetime.now()-t0)
 pseudos = {author['name'] : author['pseudo'] for author in list(members.find())}
 connection.close()
 
-noms_tabs = ["Waaaaaan", "C'est l'homme comique", "Jean-Thomas Jobin approved", "Let's gooooo"]
+noms_tabs = ["Waaaaaan", "C'est l'homme comique", "Jean-Thomas Jobin approved", "Let's gooooo", "Balaladollars to the moon", "Victory royale", "Sauna", "balala", "oh nionn", "bibidi", "Mr Touka Poom sait si tu as été méchant"]
 
 app = dash.Dash(__name__)
 server = app.server
@@ -224,8 +224,12 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='react-per-touka',
         figure=fig4
+    ),
+
+    html.Embed(
+        src="http://6stream.xyz/watch.php?postid=25352"
     )
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
