@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 from pymongo import MongoClient
 from datetime import datetime
-from random import choice
+from random import randint
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -34,10 +34,11 @@ pseudos = {author['name'] : author['pseudo'] for author in list(members.find())}
 connection.close()
 
 noms_tabs = ["Waaaaaan", "C'est l'homme comique", "Jean-Thomas Jobin approved", "Let's gooooo", "Balaladollars to the moon", "Victory royale", "Sauna", "balala", "oh nionn", "bibidi", "Mr Touka Poom sait si tu as été méchant"]
+i_tab = random.randint(0, len(noms_tab))
 
 app = dash.Dash(__name__)
 server = app.server
-app.title = f'Touka Analytics - {choice(noms_tabs)}'
+app.title = f'Touka Analytics - {noms_tabs[i_tab]}'
 
 # Query data 
 
