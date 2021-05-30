@@ -6,6 +6,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
+import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import numpy as np
@@ -32,7 +33,7 @@ print('connexion time:', datetime.now()-t0)
 pseudos = {author['name'] : author['pseudo'] for author in list(members.find())}
 connection.close()
 
-noms_tabs = ["Waaaaaan", "C'est l'homme comique", "Jean-Thomas Jobin approved"]
+noms_tabs = ["Waaaaaan", "C'est l'homme comique", "Jean-Thomas Jobin approved", "Let's gooooo"]
 
 app = dash.Dash(__name__)
 server = app.server
@@ -89,6 +90,12 @@ print('compiling data time: ', datetime.now()-t0)
 print("Data compiled")
 
 msg_total = data["total_msg"]
+
+fig0 = go.Figure(go.Indicator(
+    mode = "number",
+    value = msg_total,
+    title = {"text":"Messages", "align":"center"} ))
+
 
 
 # Bar chart msg per person
@@ -193,6 +200,11 @@ app.layout = html.Div(children=[
     html.H3(children='''
         Powered by Mr. Touka Poom
     '''),
+    
+    dcc.Graph(
+        id='msg-total',
+        figure=fig0
+    ),
 
     dcc.Graph(
         id='msg-per-touka-bar',
