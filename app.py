@@ -34,7 +34,7 @@ pseudos = {author['name'] : author['pseudo'] for author in list(members.find())}
 connection.close()
 
 noms_tabs = ["Waaaaaan", "C'est l'homme comique", "Jean-Thomas Jobin approved", "Let's gooooo", "Balaladollars to the moon", "Victory royale", "Sauna", "balala", "oh nionn", "bibidi", "Mr Touka Poom sait si tu as été méchant"]
-i_tab = random.randint(0, len(noms_tab))
+i_tab = randint(0, len(noms_tabs))
 
 app = dash.Dash(__name__)
 server = app.server
