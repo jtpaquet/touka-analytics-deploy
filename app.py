@@ -225,10 +225,6 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='react-per-touka',
         figure=fig4
-    ),
-
-    html.Embed(
-        src="http://6stream.xyz/watch.php?postid=25352"
     )
 ])
 
