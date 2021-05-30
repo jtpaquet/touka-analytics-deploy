@@ -11,6 +11,7 @@ import pandas as pd
 import numpy as np
 from pymongo import MongoClient
 from datetime import datetime
+from random import choice
 
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
@@ -31,9 +32,11 @@ print('connexion time:', datetime.now()-t0)
 pseudos = {author['name'] : author['pseudo'] for author in list(members.find())}
 connection.close()
 
+noms_tabs = ["Waaaaaan", "C'est l'homme comique", "Jean-Thomas Jobin approved"]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__)
 server = app.server
+app.title = f'Touka Analytics - {choice(noms_tabs)}'
 
 # Query data 
 
@@ -85,6 +88,29 @@ data['react_made_by_reaction'] = list(messages.aggregate(react_made_by_reaction_
 print('compiling data time: ', datetime.now()-t0)
 print("Data compiled")
 
+msg_total = data["total_msg"]
+
+
+# Bar chart msg per person
+
+data_ = dict(sorted(data["n_msg"].items(), key=lambda item: item[1], reverse=True))
+data_.pop('Charles Pilon', None)
+data_.pop('Estère', None)
+data_.pop('Kaven', None)
+data_.pop('Marcel Leboeuf', None)
+data_.pop('Pat Laf', None)
+df_msg_per_person = pd.DataFrame.from_dict(data_, orient="index", columns=['Messages'])
+
+fig1 = px.bar(df_msg_per_person, x=df_msg_per_person.index, y="Messages", title='Messages par touka', labels={
+                     "index": "Touka",
+                     "Messages": "Messages"})
+
+fig1.update_layout(
+    autosize=False,
+    height=500
+)
+
+
 # Activité totale dans le temps
 
 data_ = {}
@@ -105,31 +131,67 @@ fig2.update_xaxes(
         buttons=list([
             dict(count=1, label="1m", step="month", stepmode="backward"),
             dict(count=6, label="6m", step="month", stepmode="backward"),
-            dict(count=1, label="YTD", step="year", stepmode="todate"),
             dict(count=1, label="1y", step="year", stepmode="backward"),
+            dict(count=1, label="YTD", step="year", stepmode="todate"),
             dict(step="all")
         ])
     )
 )
 
-# Bar chart msg per person
+fig2.update_layout(
+    width=1400,
+    height=700
+)
 
-data_ = dict(sorted(data["n_msg"].items(), key=lambda item: item[1], reverse=True))
-data_.pop('Charles Pilon', None)
-data_.pop('Estère', None)
-data_.pop('Kaven', None)
-data_.pop('Marcel Leboeuf', None)
-data_.pop('Pat Laf', None)
-df_msg_per_person = pd.DataFrame.from_dict(data_, orient="index", columns=['Messages'])
 
-msg_total = data["total_msg"]
-fig1 = px.bar(df_msg_per_person, x=df_msg_per_person.index, y="Messages", title='Messages par touka')
+# Bar charts msg per year
+
+data_ = data['total_msg_by_year']
+df_msg_per_year = pd.DataFrame.from_dict(data_)
+fig3 = px.bar(df_msg_per_year, x='_id', y="n_msg", title='Messages par année', labels={
+                     "_id": "Année",
+                     "n_msg": "Messages"})
+
+fig3.update_layout(
+    autosize=False,
+    height=500
+)
+
+
+# Bar chart reacts per person
+
+data_ = data["react_made_by_actor"]
+
+deleted_touka = ["Charles Pilon", "Étienne Godbout"]
+
+data_ = list(filter(lambda d: d['_id'] not in deleted_touka, data_))
+
+for doc in data_:
+    doc["_id"] = pseudos[doc["_id"]]
+
+df_react_per_person = pd.DataFrame.from_dict(data_)
+
+fig4 = px.bar(df_react_per_person, x='_id', y="count", title='Réeactions par touka', labels={
+                     "_id": "Touka",
+                     "count": "Réactions"})
+
+fig4.update_layout(
+    autosize=False,
+    height=500
+)
+
 
 app.layout = html.Div(children=[
+    html.Title(children="Touka Analytics"),
+
     html.H1(children='Touka Analytics'),
 
-    html.Div(children='''
-        Dash: A web application framework for Python.
+    html.H2(children='''
+        Votre source de statistiques officielle sur Touka.
+    '''),
+    
+    html.H3(children='''
+        Powered by Mr. Touka Poom
     '''),
 
     dcc.Graph(
@@ -140,8 +202,18 @@ app.layout = html.Div(children=[
     dcc.Graph(
         id='msg-per-touka-time-series',
         figure=fig2
+    ),
+
+    dcc.Graph(
+        id='msg-per-year',
+        figure=fig3
+    ),
+
+    dcc.Graph(
+        id='react-per-touka',
+        figure=fig4
     )
 ])
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
