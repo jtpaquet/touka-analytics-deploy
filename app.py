@@ -107,7 +107,7 @@ data_.pop('Estère', None)
 data_.pop('Kaven', None)
 data_.pop('Marcel Leboeuf', None)
 data_.pop('Pat Laf', None)
-data_.pop('P-E', None)
+data_.pop('Champion de Catan', None)
 data_.pop('Kamouk', None)
 df_msg_per_person = pd.DataFrame.from_dict(data_, orient="index", columns=['Messages'])
 
