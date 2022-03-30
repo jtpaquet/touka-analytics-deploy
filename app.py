@@ -237,7 +237,7 @@ for doc in data_:
 df_n_mot_counter = pd.DataFrame.from_dict(data_)
 fig5 = px.bar(df_n_mot_counter, x='_id', y="n_mot", title='Compteur de zeu', labels={
                      "_id": "Touka",
-                     "n_mot": "N mots"})
+                     "n_mot": "Zeu"})
 
 fig5.update_layout(
     autosize=False,
