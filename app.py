@@ -235,7 +235,7 @@ for doc in data_:
     doc["_id"] = pseudos[doc["_id"]]
 
 df_n_mot_counter = pd.DataFrame.from_dict(data_)
-fig5 = px.bar(df_n_mot_counter, x='_id', y="n_mot", title='N mot compteur :(', labels={
+fig5 = px.bar(df_n_mot_counter, x='_id', y="n_mot", title='Compteur de zeu', labels={
                      "_id": "Touka",
                      "n_mot": "N mots"})
 
