@@ -28,7 +28,7 @@ t0 = datetime.now()
 connection = MongoClient(MONGODB_URI)
 database = connection[DBS_NAME]
 members = database['members']
-messages = database['messages_8dec2021']
+messages = database['messages_04avril2022']
 print('connexion time:', datetime.now()-t0)
 pseudos = {author['name'] : author['pseudo'] for author in list(members.find())}
 connection.close()
