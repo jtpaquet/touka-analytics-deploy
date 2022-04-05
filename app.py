@@ -129,6 +129,12 @@ print("Data compiled")
 
 msg_total = data["total_msg"]
 
+date_min = datetime.fromtimestamp(data["date_min"]/1000)
+date_min = date_min.strftime("%d %b %Y")
+date_max = datetime.fromtimestamp(data["date_max"]/1000)
+date_max = date_max.strftime("%d %b %Y")
+
+
 fig0 = go.Figure(go.Indicator(
     mode = "number",
     value = msg_total,
@@ -257,6 +263,9 @@ app.layout = html.Div(children=[
     html.H3(children='''
         Powered by Mr. Touka Poom
     '''),
+    
+    html.H3(children=f"{date_min} - {date_max}"),
+
     
     dcc.Graph(
         id='msg-total',
