@@ -17764,4 +17764,30 @@ Copyright (c) 2015 Daniel Eden
   padding-right: 0;
 }
 
+
+.lakasse-loading {
+  margin: 1rem auto;
+  width: 1280px;
+  height: 720px;
+  text-align: center;
+  font-size: 10px;
+  background-image: url("loading.gif");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.lakasse-loading-div {
+  width: 1280px;
+  height: 720px;
+}
+
+.dash-spinner {
+  /* background-image: url("loading.gif"); */
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.dash-spinner * {
+  display: none !important;
+}
 /*# sourceMappingURL=dashboard-free.css.map */
